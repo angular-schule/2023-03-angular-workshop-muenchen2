@@ -1,0 +1,16 @@
+{
+  "name": "typescript-playground",
+  "version": "1.0.0",
+  "description": "Unser Test im Node.js / NPM Ökosystem",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc && node main.js",
+    "info": "tsc --version"
+  },
+  "author": "Johannes Hoppe",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "typescript": "^4.9.5"
+  }
+}
