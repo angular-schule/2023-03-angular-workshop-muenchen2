@@ -7,16 +7,14 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 @NgModule({
-  declarations: [
-    BookComponent,
-    DashboardComponent
-  ],
-  imports: [
-    CommonModule,
-    BooksRoutingModule
-  ],
-  exports: [
-    DashboardComponent
-  ]
+    imports: [
+        CommonModule,
+        BooksRoutingModule,
+        BookComponent,
+        DashboardComponent
+    ],
+    exports: [
+        DashboardComponent
+    ]
 })
 export class BooksModule { }
