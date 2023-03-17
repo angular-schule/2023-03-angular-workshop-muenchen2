@@ -1,5 +1,6 @@
 <!-- <pre>{{ books | json }}</pre> -->
 
-<br-book [book]="books[0]" />
-<br-book [book]="books[1]" />
-<br-book [book]="books[3]" />
+<br-book
+  *ngFor="let b of books"
+  [book]="b"
+/>
