@@ -10,6 +10,19 @@
     </div>
     <p>{{ book.description }}</p>
 
-    <button class="btn btn-primary">Klick mich!</button>
+    <!--
+      ANTI-PATTERN
+
+      1. Seperation of Concerns verletzt
+      2. Logik im Template
+      3. Objekt mutiert
+
+    -->
+
+    <button class="btn btn-primary me-2"
+      (click)="book.rating = book.rating - 1">-1</button>
+
+    <button class="btn btn-primary"
+      (click)="book.rating = book.rating + 1">+1</button>
   </div>
 </div>
