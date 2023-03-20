@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Book } from '../shared/book';
 import { BookComponent } from '../book/book.component';
 import { NgFor } from '@angular/common';
@@ -9,7 +9,8 @@ import { BookRatingService } from '../shared/book-rating.service';
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss'],
     standalone: true,
-    imports: [NgFor, BookComponent]
+    imports: [NgFor, BookComponent],
+    // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent {
 
@@ -31,12 +32,13 @@ export class DashboardComponent {
   }];
 
   constructor(private br: BookRatingService) {
-
+    setTimeout(() => this.books = [], 3000)
   }
 
   doRateUp(book: Book): void {
     const ratedBook = this.br.rateUp(book);
     this.updateAndSort(ratedBook);
+    // throw new Error('Aua!')
   }
 
   doRateDown(book: Book): void {
