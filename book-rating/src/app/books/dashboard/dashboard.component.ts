@@ -32,7 +32,7 @@ export class DashboardComponent {
   }];
 
   constructor(private br: BookRatingService) {
-    setTimeout(() => this.books = [], 3000)
+    // setTimeout(() => this.books = [], 3000)
   }
 
   doRateUp(book: Book): void {
