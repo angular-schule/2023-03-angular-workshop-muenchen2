@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { Book } from '../shared/book';
 import { BookComponent } from '../book/book.component';
 import { NgFor } from '@angular/common';
@@ -31,6 +31,13 @@ export class DashboardComponent {
     description: 'Voll veraltet',
     rating: 1
   }];
+
+  @ViewChild(BookCreateComponent)
+  bookCreate?: BookCreateComponent;
+
+  // ngAfterViewInit() {
+  //   this.bookCreate?.create.subscribe(book => console.log('Buch ist da!', book));
+  // }
 
   constructor(private br: BookRatingService) {
     // setTimeout(() => this.books = [], 3000)
