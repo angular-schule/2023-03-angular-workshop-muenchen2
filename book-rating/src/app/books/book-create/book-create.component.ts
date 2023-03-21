@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Book } from '../shared/book';
 
 @Component({
   selector: 'br-book-create',
@@ -25,5 +26,32 @@ export class BookCreateComponent {
     })
   });
 
+  c = this.bookForm.controls;
 
+  constructor() {
+    this.bookForm.statusChanges.subscribe(formControlStatus => {
+      if (formControlStatus === 'INVALID') {
+        navigator.vibrate([500]);
+        console.log('Es hat vibriert!')
+      }
+    })
+  }
+
+  submitForm() {
+    const newBook: Book = {
+      ...this.bookForm.getRawValue(),
+      rating: 1
+    }
+
+    // 1. Erstelle eine Event mit dem namen 'create'
+    // 2. Versende das neue Book per Event
+    // 3. Subscribe dich auf das Event im Dashboard
+    // 4. Füge das Buch dem Array hinzu
+
+    this.bookForm.reset();
+  }
+
+  hasError(control: FormControl): boolean {
+    return control.touched && control.invalid;
+  }
 }
