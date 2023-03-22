@@ -30,7 +30,15 @@ export class CreatingComponent {
     }
 
     // Observable!
-    const observable = of('😃', '😱', '😇');
+    // const observable = of('😃', '😱', '😇');
+
+    const observable = new Observable<string>(obs => {
+
+      obs.next('😃');
+      obs.next('😍');
+      obs.next('🥳');
+      obs.complete();
+    });
 
     observable.subscribe(observer);
 
