@@ -17,10 +17,13 @@
     >-1</button>
 
     <button
-      class="btn btn-primary"
+      class="btn btn-primary me-2"
       (click)="doRateUp()"
       [disabled]="book.rating > 4"
     >+1</button>
+
+    <a [routerLink]="['/books', book.isbn]"
+      class="btn btn-secondary">Details</a>
 
 
     <!-- <button class="btn btn-primary me-2" (click)="rateDown.emit(book)">-1</button> -->
