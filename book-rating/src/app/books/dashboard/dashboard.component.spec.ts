@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { BookCreateComponent } from '../book-create/book-create.component';
 
 import { BookComponent } from '../book/book.component';
 import { Book } from '../shared/book';
@@ -18,6 +20,8 @@ import { DashboardComponent } from './dashboard.component';
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
+  let bookCreateComponent: BookCreateComponent;
+
 
   beforeEach(async () => {
 
@@ -41,6 +45,7 @@ describe('DashboardComponent', () => {
 
     fixture = TestBed.createComponent(DashboardComponent);
     component = fixture.componentInstance;
+    bookCreateComponent = fixture.debugElement.query(By.directive(BookCreateComponent)).componentInstance
     fixture.detectChanges();
   });
 
@@ -54,4 +59,29 @@ describe('DashboardComponent', () => {
 
     expect(bookRatingMock.rateUp).toHaveBeenCalledOnceWith(book);
   });
+
+  it("should create a new book", () => {
+    const title = "Macht's gut, und danke für den Fisch"
+    const isbn = "9783453146068"
+    const description = "Arthur und seine Freunde versuchen, " +
+      "die Welt zu retten, aber es scheint niemanden zu interessieren, " +
+      "außer den Delphinen, die abhauen und nur noch " +
+      "'Macht's gut, und danke für den Fisch' sagen."
+
+    const oldLength = component.books.length
+    let controls = bookCreateComponent.bookForm.controls;
+
+    controls.title.setValue(title)
+    controls.isbn.setValue(isbn)
+    controls.description.setValue(description)
+    bookCreateComponent.submitForm()
+
+    let newLength = component.books.length
+
+    expect(newLength).toEqual(oldLength + 1)
+
+    expect(component.books.find(book => book.title === title
+      && book.isbn === isbn
+      && book.description === description)).not.toBeUndefined();
+  })
 });
