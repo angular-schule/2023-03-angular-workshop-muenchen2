@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { concatMap, map, mergeMap } from 'rxjs';
+import { concatMap, exhaustMap, map, mergeMap, switchMap } from 'rxjs';
 import { Book, BooksService, BooksslowService } from '../shared/http';
 
 @Component({
