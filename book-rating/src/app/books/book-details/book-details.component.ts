@@ -1,9 +1,10 @@
-import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { catchError, concatMap, exhaustMap, map, mergeMap, of, share, shareReplay, switchMap } from 'rxjs';
-import { Book, BooksService, BooksslowService } from '../shared/http';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Component, inject } from '@angular/core';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { catchError, map, of, retry, switchMap } from 'rxjs';
+
+import { BooksslowService } from '../shared/http';
 
 @Component({
   selector: 'br-book-details',
@@ -21,12 +22,16 @@ export class BookDetailsComponent {
 
   book$ = inject(ActivatedRoute).paramMap.pipe(
     map(paramMap => paramMap.get('isbn') || ''),
-    switchMap(isbn => this.bs.booksIsbnSlowGet(isbn)),
-    catchError((err: HttpErrorResponse) => of({
-      title: 'FEHLER',
-      isbn: '000',
-      description: err.message
-    }))
+    switchMap(isbn => this.bs.booksIsbnSlowGet(isbn).pipe(
+      retry({
+        count: 3,
+        delay: 1000
+      }),
+      catchError((err: HttpErrorResponse) => of({
+        title: 'FEHLER',
+        isbn: '000',
+        description: err.message
+      }))))
   );
 
   // book?: Book;
