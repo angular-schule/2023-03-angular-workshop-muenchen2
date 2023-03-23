@@ -18,7 +18,7 @@ export class BookDetailsComponent {
 
   book$ = inject(ActivatedRoute).paramMap.pipe(
     map(paramMap => paramMap.get('isbn') || ''),
-    concatMap(isbn => this.bs.booksIsbnSlowGet(isbn))
+    switchMap(isbn => this.bs.booksIsbnSlowGet(isbn))
   );
 
   // book?: Book;
