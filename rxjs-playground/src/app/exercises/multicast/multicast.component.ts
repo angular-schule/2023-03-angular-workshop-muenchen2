@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { Subject, BehaviorSubject, ReplaySubject, Observable, share, takeUntil } from 'rxjs';
+import { Subject, BehaviorSubject, ReplaySubject, Observable, share, takeUntil, shareReplay } from 'rxjs';
 
 import { MeasureValuesService } from './measure-values.service';
 import { ExerciseService } from '../exercise.service';
@@ -18,7 +18,23 @@ export class MulticastComponent implements OnDestroy {
 
   constructor(private mvs: MeasureValuesService, private es: ExerciseService) {
     /**************!!**************/
-    this.measureValues$ = this.mvs.getValues();
+
+    // 1. unverändert (cold)
+    // this.measureValues$ = this.mvs.getValues();
+
+    // 2. cold -- aber wird NULL wenn keine Werte da sind
+    // this.measureValues$ = this.mvs.getValues().pipe(share())
+
+    // 3. cold -- mit Puffer
+    this.measureValues$ = this.mvs.getValues().pipe(shareReplay({
+      bufferSize: 1,
+      refCount: true
+    }));
+
+    // 4. "per Hand"
+    // this.measureValues$ = new ReplaySubject(1);
+    // this.mvs.getValues().subscribe(this.measureValues$);
+
     /**************!!**************/
 
   }
