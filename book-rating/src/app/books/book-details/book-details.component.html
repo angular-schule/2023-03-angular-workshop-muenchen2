@@ -1,4 +1,5 @@
-<pre>{{ book$ | async | json }}</pre>
+<h1>{{ (book$ | async)?.title }}  – {{ (book$ | async)?.isbn }}</h1>
+<p>{{ (book$ | async)?.description }}</p>
 
 <hr>
 

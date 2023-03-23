@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { concatMap, exhaustMap, map, mergeMap, switchMap } from 'rxjs';
+import { concatMap, exhaustMap, map, mergeMap, share, switchMap } from 'rxjs';
 import { Book, BooksService, BooksslowService } from '../shared/http';
 
 @Component({
@@ -18,7 +18,8 @@ export class BookDetailsComponent {
 
   book$ = inject(ActivatedRoute).paramMap.pipe(
     map(paramMap => paramMap.get('isbn') || ''),
-    switchMap(isbn => this.bs.booksIsbnSlowGet(isbn))
+    switchMap(isbn => this.bs.booksIsbnSlowGet(isbn)),
+    share()
   );
 
   // book?: Book;
