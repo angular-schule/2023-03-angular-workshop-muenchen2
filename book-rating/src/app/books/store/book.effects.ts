@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, concatMap } from 'rxjs/operators';
-import { Observable, EMPTY, of } from 'rxjs';
+import { of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
+
+import { BooksService } from '../shared/http';
 import * as BookActions from './book.actions';
 
 
@@ -12,9 +14,8 @@ export class BookEffects {
     return this.actions$.pipe(
 
       ofType(BookActions.loadBooks),
-      concatMap(() =>
-        /** An EMPTY observable only emits completion. Replace with your own observable API request */
-        EMPTY.pipe(
+      switchMap(() =>
+        this.bs.booksGet().pipe(
           map(books => BookActions.loadBooksSuccess({ books })),
           catchError(error => of(BookActions.loadBooksFailure({ error }))))
       )
@@ -22,5 +23,5 @@ export class BookEffects {
   });
 
 
-  constructor(private actions$: Actions) {}
+  constructor(private actions$: Actions, private bs: BooksService) {}
 }

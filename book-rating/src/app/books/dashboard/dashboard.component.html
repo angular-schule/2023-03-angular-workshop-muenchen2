@@ -1,7 +1,9 @@
 <br-book-create (create)="addBook($event)" />
 
+<h3 *ngIf="loading$ | async">Bitte warten</h3>
+
 <br-book
-  *ngFor="let b of books"
+  *ngFor="let b of books$ | async"
   [book]="b"
 
   (rateUp)="doRateUp($event)"
